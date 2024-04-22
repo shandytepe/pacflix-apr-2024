@@ -1,4 +1,5 @@
 from tabulate import tabulate
+from typing import Dict, List
 
 data = {
     "Shandy": ["Basic Plan", 12, "shandy-2134"],
@@ -13,7 +14,7 @@ class User:
         self.username = username
         
     # method check plan
-    def check_benefit(self):
+    def check_benefit(self) -> None:
         """Method yang digunakan untuk menampilkan all benefits dari PacFlix"""
         # init headers
         headers = ["Basic Plan", "Standard Plan", "Premium Plan", "Benefits"]
@@ -33,7 +34,7 @@ class User:
         print(tabulate(table, headers, tablefmt="github"))
         
     # method check benefit based on input username
-    def check_plan(self, username: str):
+    def check_plan(self, username: str) -> None:
         """
         Method yang digunakan untuk mengambil data user PacFlix based on username
         
@@ -62,11 +63,12 @@ class User:
         
         Parameters
         ----------
-        ...
+        username (str): username current user
+        upgrade_plan (str): upgrade plan yang dipilih oleh current user
         
         Returns
         -------
-        ...
+        total_price (float): final price yang harus dibayar oleh current user
         """
         DISCOUNT = 0.05
         
@@ -81,7 +83,7 @@ class User:
                     get_current_plan = values[0]
                     get_duration_plan = values[1]
 
-                    if upgrade_plan != get_duration_plan:
+                    if upgrade_plan != get_current_plan:
                         # filter duration plan to get a discount 5%
                         if get_duration_plan > 12:
                             # logic discount
@@ -137,10 +139,17 @@ class NewUser:
         self.username = username
         
     # method to extract referral code from dictionary
-    def get_referral_code(self, data):
+    def get_referral_code(self, data: Dict[str, str]) -> List[str]:
         """
         Method untuk extract Referral Code pada Dictionary data
-        ...
+        
+        Parameters
+        ----------
+        data (dict): Dictionary user data PacFlix
+
+        Returns
+        -------
+        referral_code (list): List of referral code dari referral code
         """
         # iterate to data
         for value in data.values():
@@ -152,8 +161,19 @@ class NewUser:
         return self.referral_code
         
     # method untuk new user pick plan
-    def pick_plan(self, new_plan, referral_code):
-        
+    def pick_plan(self, new_plan: str, referral_code: str) -> float:
+        """
+        Method yang digunakan untuk user baru memilih plan berdasarkan referral code
+
+        Parameters
+        ----------
+        new_plan (str): Subscribe plan yang dipilih
+        referral_code (str): Referral code yang tersedia pada database
+
+        Returns
+        -------
+        total_price (float): Final price yang dibayar oleh new user 
+        """
         # initiate discount
         DISCOUNT = 0.04
         
@@ -179,10 +199,12 @@ class NewUser:
             
         else:
             raise Exception("Referral Code tidak ada!!!")
-
+        
+    
+# test object
 user_1 = User(username = "Shandy")
 
-print(user_1.check_benefit())
+user_1.check_benefit()
 
 print(user_1.upgrade_plan(username = user_1.username,
                           upgrade_plan = "Premium Plan"))
