@@ -10,7 +10,7 @@
 
 ## Test Case
 - Terdapat 4 Case dan semua berhasil dijalankan
-- Contoh Skenario 1:
+- Testing Scenario:
     - Get all Subscribe plan
     - Get current plan and duration plan based on input username
     - Upgrade plan, if duration plan > 12 get discount 5%
